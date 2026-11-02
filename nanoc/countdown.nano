@@ -1,0 +1,7 @@
+let n = 5;
+while (n > 0) {
+    print n;
+    println "";
+    n = n - 1;
+}
+println "Go!";

@@ -1,0 +1,6 @@
+*
+!pong-c/
+!pong-c/**
+!nanoc/
+!nanoc/**
+!.gitignore

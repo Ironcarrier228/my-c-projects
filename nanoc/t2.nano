@@ -1,0 +1,5 @@
+let i = 0;
+while (i < 2) {
+    println "B";
+    i = i + 1;
+}

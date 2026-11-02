@@ -1,0 +1,2 @@
+println "Hello, world from Nano!";
+println "Compiled by hand, no assembler used.";
