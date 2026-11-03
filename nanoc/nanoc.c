@@ -272,6 +272,16 @@ static void emit_load_str_addr_rcx(int str_index)   /* movabs rcx, addr */
     emit64(&code, 0);
 }
 
+static void emit_call_rel32(int label)            /* E8 rel32 */
+{
+    emit8(&code, 0xE8);
+    if (jmp_fix_n >= 16384) fail("слишком много переходов");
+    jmp_fix[jmp_fix_n].label = label;
+    jmp_fix[jmp_fix_n].pos = code.n;
+    jmp_fix_n++;
+    emit32(&code, 0);
+}
+
 static void gen_expr(void);
 static void gen_stmt(void);
 static void gen_write_crlf(void);
@@ -286,7 +296,7 @@ static void gen_print_int_from_rax(int newline)
 {
     emit8(&code, 0x48); emit8(&code, 0x8D); emit8(&code, 0x8D);
     emit32(&code, (unsigned)-0x50);                 /* lea rcx, [rbp-0x50] (конец буфера) */
-    emit_jmp(0xE8, itoa_label);                     /* call itoa (rel32) */
+    emit_call_rel32(itoa_label);                    /* call itoa */
     /* rax = длина, rdx = старт цифр */
     emit8(&code, 0x48); emit8(&code, 0x8B); emit8(&code, 0x8D);
     emit32(&code, (unsigned)-0x80);                 /* mov rcx, [rbp-0x80] (hStdout) */
@@ -414,8 +424,8 @@ static void gen_compare(void)
         next_tok();
         emit8(&code, 0x50);                 /* push rax */
         gen_additive();
-        emit8(&code, 0x48); emit8(&code, 0x89); emit8(&code, 0xC8); /* mov rax, rcx */
-        emit8(&code, 0x58);                 /* pop rax */
+        emit8(&code, 0x48); emit8(&code, 0x89); emit8(&code, 0xC1); /* mov rcx, rax (rhs) */
+        emit8(&code, 0x58);                 /* pop rax (lhs) */
         emit8(&code, 0x48); emit8(&code, 0x39); emit8(&code, 0xC8); /* cmp rax, rcx */
         unsigned setcc;
         switch (op) {
@@ -774,9 +784,9 @@ int main(int argc, char **argv)
         emit_jmp(0x85, l_loop);
       }
     }
-    emit8(&code, 0x4C); emit8(&code, 0x89); emit8(&code, 0xCA);     /* mov rdx, rcx (start) */
+    emit8(&code, 0x48); emit8(&code, 0x89); emit8(&code, 0xCA);     /* mov rdx, rcx (start) */
     emit8(&code, 0x4C); emit8(&code, 0x89); emit8(&code, 0xC0);     /* mov rax, r8 (end) */
-    emit8(&code, 0x4C); emit8(&code, 0x29); emit8(&code, 0xC8);     /* sub rax, rcx (len) */
+    emit8(&code, 0x48); emit8(&code, 0x29); emit8(&code, 0xC8);     /* sub rax, rcx (len) */
     emit8(&code, 0xC3);                                             /* ret */
 
     write_pe(argv[2]);
