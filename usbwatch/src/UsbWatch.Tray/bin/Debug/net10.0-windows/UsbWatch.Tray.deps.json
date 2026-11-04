@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "UsbWatch.Tray/1.0.0": {
+        "dependencies": {
+          "UsbWatch.Core": "1.0.0"
+        },
+        "runtime": {
+          "UsbWatch.Tray.dll": {}
+        }
+      },
+      "UsbWatch.Core/1.0.0": {
+        "runtime": {
+          "UsbWatch.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UsbWatch.Tray/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UsbWatch.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

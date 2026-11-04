@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/UsbWatch.Cli/UsbWatch.Cli.csproj" />
+    <Project Path="src/UsbWatch.Core/UsbWatch.Core.csproj" />
+    <Project Path="src/UsbWatch.Service/UsbWatch.Service.csproj" />
+    <Project Path="src/UsbWatch.Tray/UsbWatch.Tray.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/UsbWatch.Tests/UsbWatch.Tests.csproj" />
+  </Folder>
+</Solution>
