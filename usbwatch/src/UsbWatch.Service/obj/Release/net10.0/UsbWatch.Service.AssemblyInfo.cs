@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UsbWatch.Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9ef92ec8304af2eb9f65f66bcf39c3911367c56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+835473f07bdb1618d27f240d9f4bc2153d7fab5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("UsbWatch.Service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UsbWatch.Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

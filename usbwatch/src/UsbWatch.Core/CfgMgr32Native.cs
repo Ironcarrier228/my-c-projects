@@ -4,32 +4,55 @@ namespace UsbWatch.Core;
 
 public static class CfgMgr32Native
 {
-    public const int CR_SUCCESS = 0;
+    public const uint CR_SUCCESS = 0;
 
-    public const int CM_NOTIFY_ACTION_DEVICEINTERFACEARRIVAL = 0;
-    public const int CM_NOTIFY_ACTION_DEVICEINTERFACEREMOVAL = 1;
+    // --- CM_NOTIFY_FILTER: Windows 11 SDK 10.0.22621+, sizeof = 416 на x64 ---
+    // Структура была расширена: добавлены Reserved(4) и InstanceId[200] в union.
+
     public const int CM_NOTIFY_FILTER_TYPE_DEVICEINTERFACE = 0;
+    public const int CM_NOTIFY_FILTER_TYPE_DEVICEHANDLE = 1;
+    public const int CM_NOTIFY_FILTER_TYPE_DEVICEINSTANCE = 2;
+    public const uint CM_NOTIFY_FILTER_FLAG_NONE = 0;
+    public const uint CM_NOTIFY_FILTER_FLAG_ALL_INTERFACE_CLASSES = 1;
+    public const uint CM_NOTIFY_FILTER_FLAG_ALL_DEVICE_INSTANCES = 2;
 
-    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate int CM_NOTIFY_CALLBACK(IntPtr hNotify, IntPtr Context, int Action, IntPtr EventData, int EventDataSize);
+    public enum CM_NOTIFY_ACTION : uint
+    {
+        DEVICEINTERFACEARRIVAL = 0,
+        DEVICEINTERFACEREMOVAL = 1,
+        DEVICEQUERYREMOVE = 2,
+        DEVICEQUERYREMOVEFAILED = 3,
+        DEVICEREMOVEPENDING = 4,
+        DEVICEREMOVECOMPLETE = 5,
+        DEVICECUSTOMEVENT = 6,
+        DEVICEINSTANCEENUMERATED = 7,
+        DEVICEINSTANCESTARTED = 8,
+        DEVICEINSTANCEREMOVED = 9,
+    }
 
-    [StructLayout(LayoutKind.Sequential)]
+    
+
+    [StructLayout(LayoutKind.Explicit, Size = 416)]
     public struct CM_NOTIFY_FILTER
     {
-        public int cbSize;       // 0
-        public int Flags;        // 4
-        public int FilterType;   // 8
-        public Guid Reserved;    // 12-27
-        public int Pad1;         // 28-31 (native union align 8 для HANDLE)
-        public Guid ClassGuid;   // 32-47 (union DeviceInterface)
-    }   // total: 48 bytes
+        [FieldOffset(0)] public uint cbSize;       // sizeof = 416 на x64
+        [FieldOffset(4)] public uint Flags;        // 0 = none, 1 = ALL_INTERFACE_CLASSES, 2 = ALL_DEVICE_INSTANCES
+        [FieldOffset(8)] public uint FilterType;   // 0 = DEVICEINTERFACE, 1 = DEVICEHANDLE, 2 = DEVICEINSTANCE
+        [FieldOffset(12)] public uint Reserved;    // 0
+        [FieldOffset(16)] public Guid ClassGuid;   // union DeviceInterface
+    }
 
-    [DllImport("CfgMgr32.dll", SetLastError = false)]
-    public static extern int CM_Register_Notification(ref CM_NOTIFY_FILTER pFilter, IntPtr Context,
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    public delegate uint CM_NOTIFY_CALLBACK(
+        IntPtr hNotify, IntPtr Context, uint Action, IntPtr EventData, uint EventDataSize);
+
+    [DllImport("CfgMgr32.dll")]
+    public static extern uint CM_Register_Notification(
+        in CM_NOTIFY_FILTER pFilter, IntPtr Context,
         CM_NOTIFY_CALLBACK pCallback, out IntPtr pNotifyContext);
 
     [DllImport("CfgMgr32.dll")]
-    public static extern int CM_Unregister_Notification(IntPtr NotifyContext);
+    public static extern uint CM_Unregister_Notification(IntPtr pNotifyContext);
 
     [DllImport("CfgMgr32.dll", CharSet = CharSet.Unicode)]
     public static extern int CM_Get_Device_Interface_ListW(ref Guid InterfaceClassGuid, string? DevicePath,

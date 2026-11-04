@@ -73,12 +73,12 @@ public class Worker : BackgroundService
             "{53f56307-b6bf-11d0-94f2-00a0c91efb8b}",  // Disk
             "{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",  // Volume
         };
-        _cb ??= PnpCallback;
+        _cb = PnpCallback;
         foreach (var g in guids)
         {
             var f = new CfgMgr32Native.CM_NOTIFY_FILTER
             {
-                cbSize = Marshal.SizeOf<CfgMgr32Native.CM_NOTIFY_FILTER>(),
+                cbSize = (uint)Marshal.SizeOf<CfgMgr32Native.CM_NOTIFY_FILTER>(),
                 FilterType = CfgMgr32Native.CM_NOTIFY_FILTER_TYPE_DEVICEINTERFACE,
                 ClassGuid = new Guid(g)
             };
@@ -90,11 +90,11 @@ public class Worker : BackgroundService
             ThreadPool.QueueUserWorkItem(_ => HandleUsbNode(id));
     }
 
-    private int PnpCallback(IntPtr h, IntPtr ctx, int action, IntPtr data, int size)
+    private uint PnpCallback(IntPtr h, IntPtr ctx, uint action, IntPtr data, uint size)
     {
         try
         {
-            if (action != CfgMgr32Native.CM_NOTIFY_ACTION_DEVICEINTERFACEARRIVAL) return 0;
+            if (action != 0) return 0;  // CM_NOTIFY_ACTION_DEVICEINTERFACEARRIVAL
             var symlink = Marshal.PtrToStringUni(data + 8 + 16) ?? "";
             ThreadPool.QueueUserWorkItem(_ => HandleInterfaceArrival(symlink));
         }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UsbWatch.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f0be47fdfb9b70f2a6c52c88e023b1a8fc8e7f6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+835473f07bdb1618d27f240d9f4bc2153d7fab5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("UsbWatch.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UsbWatch.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
