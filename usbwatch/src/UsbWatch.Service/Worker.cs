@@ -64,24 +64,27 @@ public class Worker : BackgroundService
 
     private void RegisterPnp()
     {
+        // Interface class GUIDs (не setup-классы!) — для CM_NOTIFY_FILTER_TYPE_DEVICEINTERFACE
         var guids = new[]
         {
-            PolicyEngine.HidClass, PolicyEngine.KeyboardClass, PolicyEngine.MouseClass,
-            "{4d36e967-e325-11ce-bfc1-08002be10318}",                 // DiskDrive
-            "{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",                 // Volume
+            "{4d1e55b2-f16f-11cf-88cb-001111000030}",  // HID
+            "{884b96c3-56ef-11d1-bc8c-00a0c91405dd}",  // Keyboard
+            "{378de44c-56ef-11d1-bc8c-00a0c91405dd}",  // Mouse
+            "{53f56307-b6bf-11d0-94f2-00a0c91efb8b}",  // Disk
+            "{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",  // Volume
         };
         _cb ??= PnpCallback;
         foreach (var g in guids)
         {
             var f = new CfgMgr32Native.CM_NOTIFY_FILTER
             {
-                cbSize = Marshal.SizeOf<CfgMgr32Native.CM_NOTIFY_FILTER>() + 16,
+                cbSize = Marshal.SizeOf<CfgMgr32Native.CM_NOTIFY_FILTER>(),
                 FilterType = CfgMgr32Native.CM_NOTIFY_FILTER_TYPE_DEVICEINTERFACE,
                 ClassGuid = new Guid(g)
             };
-            if (CfgMgr32Native.CM_Register_Notification(ref f, IntPtr.Zero, _cb, out _notify)
-                != CfgMgr32Native.CR_SUCCESS)
-                _log.LogError("CM_Register_Notification failed: {g}", g);
+            var rc = CfgMgr32Native.CM_Register_Notification(ref f, IntPtr.Zero, _cb, out _notify);
+            if (rc != CfgMgr32Native.CR_SUCCESS)
+                _log.LogError("CM_Register_Notification failed: {g} rc={rc} cbSize={cb}", g, rc, f.cbSize);
         }
         foreach (var id in CfgMgr32Native.GetDeviceIdList("USB\\*"))
             ThreadPool.QueueUserWorkItem(_ => HandleUsbNode(id));

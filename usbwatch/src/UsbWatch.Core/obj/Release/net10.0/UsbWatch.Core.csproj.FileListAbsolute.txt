@@ -1,0 +1,12 @@
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\bin\Release\net10.0\UsbWatch.Core.deps.json
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\bin\Release\net10.0\UsbWatch.Core.dll
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\bin\Release\net10.0\UsbWatch.Core.pdb
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.AssemblyInfoInputs.cache
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.AssemblyInfo.cs
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.csproj.CoreCompileInputs.cache
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.sourcelink.json
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.dll
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\refint\UsbWatch.Core.dll
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\UsbWatch.Core.pdb
+C:\Users\USER\.zcode\workspace\usbwatch\src\UsbWatch.Core\obj\Release\net10.0\ref\UsbWatch.Core.dll

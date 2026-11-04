@@ -16,12 +16,13 @@ public static class CfgMgr32Native
     [StructLayout(LayoutKind.Sequential)]
     public struct CM_NOTIFY_FILTER
     {
-        public int cbSize;
-        public int Flags;
-        public int FilterType;
-        public Guid Reserved;
-        public Guid ClassGuid;
-    }
+        public int cbSize;       // 0
+        public int Flags;        // 4
+        public int FilterType;   // 8
+        public Guid Reserved;    // 12-27
+        public int Pad1;         // 28-31 (native union align 8 для HANDLE)
+        public Guid ClassGuid;   // 32-47 (union DeviceInterface)
+    }   // total: 48 bytes
 
     [DllImport("CfgMgr32.dll", SetLastError = false)]
     public static extern int CM_Register_Notification(ref CM_NOTIFY_FILTER pFilter, IntPtr Context,
